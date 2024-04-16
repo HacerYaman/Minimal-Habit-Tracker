@@ -10,7 +10,7 @@ class HabitDatabase extends ChangeNotifier {
   // initalize database
   static Future<void> initalize() async {
     final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
+    isar = await Isar.open(
       [HabitSchema, AppSettingsSchema], // oluşturulan Isar.g dosyalarından
       directory: dir.path,
     );

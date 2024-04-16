@@ -7,11 +7,13 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HabitDatabase.initalize();
-  await HabitDatabase().saveFirstLaunchDate();
+  await HabitDatabase().saveFirstLaunchDate();  //launchu bozuyo
   runApp(
     MultiProvider(
         providers: [
-      ChangeNotifierProvider(create: (context) => ThemeProvider())
+      ChangeNotifierProvider(create: (context) => ThemeProvider(),),
+      ChangeNotifierProvider(create: (context) => HabitDatabase(),),
+
     ],
     child: const MyApp()),
   );
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Habbit Tracker',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const HomePage(),
+      home:  HomePage(),
     );
   }
 }
