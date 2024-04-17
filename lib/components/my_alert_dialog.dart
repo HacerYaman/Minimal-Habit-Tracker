@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:minimal_habit_tracker/database/habit_database.dart';
+import 'package:minimal_habit_tracker/models/habit.dart';
 import 'package:provider/provider.dart';
 
 class MyAlertDialog extends StatelessWidget {
+  final Habit? habit;
+  final TextEditingController controller;
+
   const MyAlertDialog({
     super.key,
-    required this.controller,
+    required this.controller, this.habit,
   });
 
-  final TextEditingController controller;
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minimal_habit_tracker/components/habit_tile.dart';
 import 'package:minimal_habit_tracker/components/my_alert_dialog.dart';
 import 'package:minimal_habit_tracker/components/my_drawer.dart';
 import 'package:minimal_habit_tracker/database/habit_database.dart';
@@ -27,6 +28,99 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (context) => MyAlertDialog(controller: controller));
+  }
+
+  void editHabit(Habit habit) {
+    controller.text = habit.habitName;
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: TextField(
+                controller: controller,
+              ),
+              actions: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        String newHabitName = controller.text;
+                        context
+                            .read<HabitDatabase>()
+                            .updateHabitName(habit.id, newHabitName);
+                        Navigator.pop(context);
+                        controller.clear();
+                      },
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        controller.clear();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ));
+  }
+
+  void deleteHabit(Habit habit) {
+    controller.text = habit.habitName;
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("Are you sure?"),
+              actions: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        context.read<HabitDatabase>().deleteHabit(habit.id);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        controller.clear();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ));
+  }
+
+  void checkHabitOnOff(bool? value, Habit habit) {
+    //update habit completion status
+    if (value != null) {
+      context.read<HabitDatabase>().updateHabitCompletion(habit.id, value);
+    }
   }
 
   @override
@@ -62,11 +156,19 @@ class _HomePageState extends State<HomePage> {
         final habit = currentHabits[index];
 
         // habit bugün tamamlanmış mı kontrol et
-        bool isCompletedBody = isHabitCompletedToday(habit.complatedDays);
+        bool isCompletedToday = isHabitCompletedToday(habit.complatedDays);
 
         //habit ui
-        return ListTile(
-          title: Text(habit.habitName),
+        return HabitTile(
+          deleteHabit: (context){
+            deleteHabit(habit);
+          },
+          editHabit: (context) {
+            editHabit(habit);
+          },
+          isCompleted: isCompletedToday,
+          habitName: habit.habitName,
+          onChanged: (value) => checkHabitOnOff(value, habit),
         );
       },
     );

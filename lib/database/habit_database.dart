@@ -83,6 +83,8 @@ class HabitDatabase extends ChangeNotifier {
       });
     }
     //re-read from db
+    readHabits();
+    notifyListeners();
   }
 
   Future<void> updateHabitName(int id, String newName) async {
@@ -108,6 +110,4 @@ class HabitDatabase extends ChangeNotifier {
     });
     readHabits();
   }
-
-
 }
