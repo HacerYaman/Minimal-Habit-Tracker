@@ -9,10 +9,9 @@ class MyAlertDialog extends StatelessWidget {
 
   const MyAlertDialog({
     super.key,
-    required this.controller, this.habit,
+    required this.controller,
+    this.habit,
   });
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +51,8 @@ class MyAlertDialog extends StatelessWidget {
       ],
       content: TextField(
         controller: controller,
-        decoration:
-        const InputDecoration(hintText: "Create a new habit"),
+        decoration: const InputDecoration(hintText: "Create a new habit"),
       ),
     );
   }
 }
-

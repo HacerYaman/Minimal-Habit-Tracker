@@ -12,20 +12,18 @@ bool isHabitCompletedToday(List<DateTime> completedDays) {
 
 //prepare heatmap dataset
 
-Map<DateTime, int> prepareHeatMapDataset(List<Habit> habits){
-  Map<DateTime, int> dataset={};
+Map<DateTime, int> prepareHeatMapDataset(List<Habit> habits) {
+  Map<DateTime, int> dataset = {};
 
-  for(var habit in habits){
-    for(var date in habit.complatedDays){
+  for (var habit in habits) {
+    for (var date in habit.complatedDays) {
+      final normalizedDate = DateTime(date.year, date.month, date.day);
 
-      final normalizedDate= DateTime(date.year,date.month,date.day);
-
-      if(dataset.containsKey(normalizedDate)){
+      if (dataset.containsKey(normalizedDate)) {
         dataset[normalizedDate] = dataset[normalizedDate]! + 1;
-      }else{
-        dataset[normalizedDate]=1;
+      } else {
+        dataset[normalizedDate] = 1;
       }
-
     }
   }
   return dataset;

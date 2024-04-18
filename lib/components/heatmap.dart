@@ -3,8 +3,13 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 class HeatMapWidget extends StatelessWidget {
   final DateTime startDate;
-  final Map<DateTime,int> datasets;
-  const HeatMapWidget({super.key, required this.startDate, required this.datasets,});
+  final Map<DateTime, int> datasets;
+
+  const HeatMapWidget({
+    super.key,
+    required this.startDate,
+    required this.datasets,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +24,12 @@ class HeatMapWidget extends StatelessWidget {
         showText: true,
         scrollable: true,
         size: 30,
-
         colorsets: {
-      1: Colors.green.shade200,
-      2: Colors.green.shade300,
-      3: Colors.green.shade400,
-      4: Colors.green.shade500,
-      5: Colors.green.shade600,
-    });
+          1: Colors.green.shade200,
+          2: Colors.green.shade300,
+          3: Colors.green.shade400,
+          4: Colors.green.shade500,
+          5: Colors.green.shade600,
+        });
   }
 }

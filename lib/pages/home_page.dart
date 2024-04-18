@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              content: Text("Are you sure?"),
+              content: const Text("Are you sure?"),
               actions: [
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
     return ListView.builder(
       itemCount: currentHabits.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         //her habiti çek
         final habit = currentHabits[index];
