@@ -124,6 +124,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void buildHelpDialog() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("How to use?"),
+              content: const Text(
+                  "Create a habit with floating button. \nSlide the habit for seeing options."),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Okay"))
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +148,13 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+              onPressed: () {
+                buildHelpDialog();
+              },
+              icon: const Icon(Icons.help_outline))
+        ],
       ),
       drawer: const MyDrawer(),
       floatingActionButton: FloatingActionButton(
@@ -157,9 +181,12 @@ class _HomePageState extends State<HomePage> {
     return FutureBuilder<DateTime?>(
         future: habitDatabase.getFirstLaunchDate(),
         builder: (context, snapshot) {
-          if(snapshot.hasData){
-            return HeatMapWidget(startDate: snapshot.data!, datasets: prepareHeatMapDataset(currentHabits), );
-          }else{
+          if (snapshot.hasData) {
+            return HeatMapWidget(
+              startDate: snapshot.data!,
+              datasets: prepareHeatMapDataset(currentHabits),
+            );
+          } else {
             return Container();
           }
         });

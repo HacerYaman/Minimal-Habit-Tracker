@@ -13,11 +13,19 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.background,
       child: Center(
-        child: Switch(
-            value: Provider.of<ThemeProvider>(context).isDarkMode,
-            onChanged: (value) =>
-                Provider.of<ThemeProvider>(context, listen: false)
-                    .toggleTheme()),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Provider.of<ThemeProvider>(context).isDarkMode
+                ? Icons.dark_mode
+                : Icons.sunny),
+            Switch(
+                value: Provider.of<ThemeProvider>(context).isDarkMode,
+                onChanged: (value) =>
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme()),
+          ],
+        ),
       ),
     );
   }
