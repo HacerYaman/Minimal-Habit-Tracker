@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minimal_habit_tracker/components/habit_tile.dart';
+import 'package:minimal_habit_tracker/components/heatmap.dart';
 import 'package:minimal_habit_tracker/components/my_alert_dialog.dart';
 import 'package:minimal_habit_tracker/components/my_drawer.dart';
 import 'package:minimal_habit_tracker/database/habit_database.dart';
@@ -126,7 +127,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
       drawer: const MyDrawer(),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
@@ -140,8 +145,24 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
         ),
       ),
-      body: _buildHabitList(),
+      body: ListView(children: [_buildHeatMap(), _buildHabitList()]),
     );
+  }
+
+  Widget _buildHeatMap() {
+    final habitDatabase = context.watch<HabitDatabase>();
+
+    List<Habit> currentHabits = habitDatabase.currentHabit;
+
+    return FutureBuilder<DateTime?>(
+        future: habitDatabase.getFirstLaunchDate(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return HeatMapWidget(startDate: snapshot.data!, datasets: prepareHeatMapDataset(currentHabits), );
+          }else{
+            return Container();
+          }
+        });
   }
 
   Widget _buildHabitList() {
@@ -151,6 +172,8 @@ class _HomePageState extends State<HomePage> {
 
     return ListView.builder(
       itemCount: currentHabits.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         //her habiti çek
         final habit = currentHabits[index];
@@ -160,7 +183,7 @@ class _HomePageState extends State<HomePage> {
 
         //habit ui
         return HabitTile(
-          deleteHabit: (context){
+          deleteHabit: (context) {
             deleteHabit(habit);
           },
           editHabit: (context) {

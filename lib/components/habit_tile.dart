@@ -18,9 +18,9 @@ class HabitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+      padding:const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
       child: Slidable(
-        endActionPane: ActionPane(motion: StretchMotion(), children: [
+        endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: editHabit,
             backgroundColor: Colors.grey.shade800,
@@ -46,7 +46,9 @@ class HabitTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: ListTile(
-              title: Text(habitName),
+              title: Text(habitName, style: TextStyle(
+                color: isCompleted ? Colors.white : Theme.of(context).colorScheme.inversePrimary,
+              ),),
               leading: Checkbox(value: isCompleted, onChanged: onChanged),
             ),
           ),
