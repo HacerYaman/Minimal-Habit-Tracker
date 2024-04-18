@@ -7,7 +7,9 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HabitDatabase.initalize();
-  await HabitDatabase().saveFirstLaunchDate();  //launchu bozuyo
+  await HabitDatabase().saveFirstLaunchDate();
+  final themeProvider = ThemeProvider();
+  await themeProvider.loadThemeData();
   runApp(
     MultiProvider(
         providers: [
